@@ -6,7 +6,12 @@
 
 A high-performance Spring Boot 3.x sandbox designed to visualize the impact of distributed system failure patterns. This lab demonstrates how latency, error rates, and system stability respond to different resilience strategies in real-time.
 
----
+## Related Project
+
+- **Baseline-to-Hardened Reliability Lab (Spring Boot API + Next.js)**  
+  https://github.com/jroneil/baseline-to-harden  
+  A production-style implementation that applies the same resilience patterns in a realistic frontend + backend architecture.
+-
 
 ## 📖 Guided Learning
 If you are new to the project or preparing for an interview, start here:
