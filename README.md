@@ -1,35 +1,86 @@
 # Reliability Lab Dashboard
 
-A Spring Boot 3.x demonstration environment for observing service behavior under load/failure and validating resilience patterns.
+![CI](https://github.com/[YOUR_USERNAME]/reliability-lab/actions/workflows/ci.yml/badge.svg)
 
-## What it Demonstrates
-- **Naive behavior**: How slow or failing dependencies can exhaust threads and increase error rates.
-- **Timeouts**: How setting strict bounds (200ms) prevents slow dependencies from hanging requests indefinitely.
-- **Resilience4j Patterns**: How Circuit Breakers and Bulkheads protect the system and provide fast feedback.
+![Reliability Lab](docs/rlab.png)
 
-## Tech Stack
-- **Backend**: Spring Boot 3.2, Java 17, Resilience4j, Maven
-- **Frontend**: JSP, Chart.js, Vanilla CSS
+A high-performance Spring Boot 3.x sandbox designed to visualize the impact of distributed system failure patterns. This lab demonstrates how latency, error rates, and system stability respond to different resilience strategies in real-time.
 
-## Getting Started
-1. Clone the repo
-2. Run the application:
-   ```bash
-   mvn spring-boot:run
-   ```
-3. Open your browser to: [http://localhost:8080/](http://localhost:8080/)
+---
 
-## Scenarios
-- **Slow Dependency**: Mid-run, the dependency latency spikes by 250ms. Observe how p95/p99 latency increases.
-- **Failing Dependency**: Mid-run, the dependency failure rate jumps to 30%. Watch the Error Rate metric and chart.
-- **Traffic Spike**: Mid-run, the concurrency level doubles. Observe throughput and queuing effects.
+## 📖 Guided Learning
+If you are new to the project or preparing for an interview, start here:
 
-## Resilience Modes
-- **Naive**: Direct call. Dangerous for slow scenarios.
-- **Timeouts**: Enforces a 200ms limit. Turn latency spikes into fast errors.
-- **Full Resilience**: Adds a Circuit Breaker. After a threshold of failures, it stops calling the dependency entirely (Open State) to allow it to recover.
+*   **[Usage & Integration Guide](docs/guide.md)**: A step-by-step walkthrough of the experiments and how to apply these patterns in production.
+*   **[Interview Walkthrough](docs/interview-walkthrough.md)**: How to talk about this project, the tradeoffs involved, and the "why" behind the design.
+*   **[Architecture Decision Records (ADR)](docs/decisions/)**: Documentation of the engineering tradeoffs made during development.
 
-## What "Good" Looks Like
-- **Latency**: p95 stays below 250ms even during disruptions.
-- **Availability**: When disruption occurs, the system should either maintain success or fail fast (Circuit Breaker) rather than hanging.
-- **Recovery**: The metrics should stabilize quickly after the disruption window ends.
+---
+
+## 🏗️ System Architecture
+The system is designed for high-concurrency metric collection without external infrastructure dependencies.
+
+```mermaid
+graph TD
+    UI[JSP / Chart.js Frontend] -->|HTTP POST /api/run| RC[RunController]
+    RC -->|execute| RS[ResilienceService]
+    RS -->|wraps| SD[SimulatedDependency]
+    SD -->|tracks| TB[TimeBucket Metrics]
+    UI -->|HTTP GET /api/metrics| MC[MetricsController]
+    MC -->|reads| TB
+```
+
+---
+
+## 🧪 Experiment Matrix
+
+### Disruption Scenarios
+| Scenario | Impact | Observable Behavior |
+| :--- | :--- | :--- |
+| **Slow Dependency** | +250ms Latency | P95/P99 latency spikes; thread exhaustion risk. |
+| **Failing Dependency** | 30% Error Rate | Throughput drops; cascading failure potential. |
+| **Traffic Spike** | 2x Concurrency | Queue buildup; resource contention. |
+
+### Resilience Modes
+| Mode | Strategy | Outcome |
+| :--- | :--- | :--- |
+| **Naive** | Direct Call | Maximum vulnerability; service "hangs" on slow deps. |
+| **Timeouts** | Fail Fast (200ms) | Protects threads by converting latency into errors. |
+| **Full Resilience** | Circuit Breaker | Short-circuits failing nodes to allow recovery. |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+*   Java 17+
+*   Maven 3.8+
+
+### Quick Start
+1.  **Clone the repository**
+2.  **Build the project**
+    ```bash
+    mvn clean install
+    ```
+3.  **Run the application**
+    ```bash
+    mvn spring-boot:run
+    ```
+4.  **Access the Dashboard**
+    Navigate to [http://localhost:8080/](http://localhost:8080/)
+
+---
+
+## 🔬 Scientific Method: What "Good" Looks Like
+In this lab, a successful resilient configuration is defined by:
+*   **Bounded Latency**: P95 remains within safe limits even during disruption windows.
+*   **Deterministic Failure**: The system fails fast and predictably rather than hanging.
+*   **Rapid Recovery**: Metrics return to baseline immediately after the disruption ends.
+
+---
+
+## 🔗 Related Lab Projects
+*   **[Serialization Lab](https://github.com/[YOUR_USERNAME]/serialization-lab)**: A performance harness comparing Java Native Serialization vs. Apache Fory.
+
+---
+*This project is a demonstration tool and is not intended for production utility.*

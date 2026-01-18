@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/run")
@@ -23,8 +24,9 @@ public class RunController {
 
     @PostMapping
     public Map<String, String> startRun(@RequestBody RunRequest request) {
-        loadRunner.runSimulation(request);
-        return Collections.singletonMap("status", "STARTED");
+        String runId = UUID.randomUUID().toString();
+        loadRunner.runSimulation(runId, request);
+        return Collections.singletonMap("runId", runId);
     }
 
     @GetMapping("/latest")

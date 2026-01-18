@@ -55,6 +55,138 @@ h1 {
     gap: 5px;
 }
 
+/* Versus Mode Styles */
+.versus-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #334155;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--accent);
+}
+
+input:checked+.slider:before {
+    transform: translateX(30px);
+}
+
+.controls-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.controls-config {
+    flex: 1;
+    min-width: 300px;
+}
+
+.controls-config {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #334155;
+    align-items: flex-end;
+}
+
+.controls-config.vs-b-config {
+    border-left: 5px solid #f472b6;
+}
+
+.controls-config.vs-a-config {
+    border-left: 5px solid #38bdf8;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.vs-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.vs-a-label {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.vs-b-label {
+    background: #f472b6;
+    color: #0f172a;
+}
+
+.metric-vs {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.metric-divider {
+    color: #334155;
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
+.v-text-a {
+    color: #38bdf8;
+}
+
+.v-text-b {
+    color: #f472b6;
+}
+
 label {
     font-size: 0.8rem;
     color: var(--text-secondary);

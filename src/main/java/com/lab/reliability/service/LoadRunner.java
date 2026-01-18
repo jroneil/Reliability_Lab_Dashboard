@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,8 +25,7 @@ public class LoadRunner {
     }
 
     @Async
-    public void runSimulation(RunRequest request) {
-        String runId = UUID.randomUUID().toString();
+    public void runSimulation(String runId, RunRequest request) {
         LocalDateTime startTime = LocalDateTime.now();
         List<TimeBucket> buckets = new ArrayList<>();
         long startTimeMs = System.currentTimeMillis();
