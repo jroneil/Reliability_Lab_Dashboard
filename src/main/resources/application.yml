@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      dependency:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+  timelimiter:
+    instances:
+      dependency:
+        timeoutDuration: 200ms
+        cancelRunningFuture: true
+  bulkhead:
+    instances:
+      dependency:
+        maxConcurrentCalls: 25
+        maxWaitDuration: 0
