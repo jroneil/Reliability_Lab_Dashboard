@@ -83,4 +83,9 @@ In this lab, a successful resilient configuration is defined by:
 *   **[Serialization Lab](https://github.com/[YOUR_USERNAME]/serialization-lab)**: A performance harness comparing Java Native Serialization vs. Apache Fory.
 
 ---
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 *This project is a demonstration tool and is not intended for production utility.*
